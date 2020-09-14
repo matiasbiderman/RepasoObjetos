@@ -1,0 +1,7 @@
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\bin\Debug\EjercicioRestaurante.exe.config
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\bin\Debug\EjercicioRestaurante.exe
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\bin\Debug\EjercicioRestaurante.pdb
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\obj\Debug\EjercicioRestaurante.csprojAssemblyReference.cache
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\obj\Debug\EjercicioRestaurante.csproj.CoreCompileInputs.cache
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\obj\Debug\EjercicioRestaurante.exe
+C:\Users\Mati\Desktop\CAI\202002C\RepasoObjetos\EjercicioRestaurante\obj\Debug\EjercicioRestaurante.pdb
