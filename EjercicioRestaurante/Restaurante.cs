@@ -9,27 +9,30 @@ namespace EjercicioRestaurante
     class Restaurante
     {
         private string _nombre;
-        private double _recaudacion;
-        private int _cantmesas;
         private int _empleados;
         private string _direccion;
-        private string _duenio;
+        private Dueño dueño;
+        private Mesa mesa;
         private string estado;
-        public Restaurante(int empleados, string nombre, int cantmesas, string direccion)
+        private List<Pedido> pedidos;
+        private double _recaudacion;
+     
+        public Restaurante(string nombre, int empleados, string direccion, string duenio)
         {
-            this._empleados = empleados;
+
             this._nombre = nombre;
-            this._cantmesas = cantmesas;
+            this._empleados = empleados;
             this._direccion = direccion;
-            this._recaudacion = 0;
             estado = "nuevo";
-            _duenio = "Sociedad Anonima";
+            this._recaudacion = 0;
+            this.dueño = new Dueño(duenio);
+            this.mesa = new Mesa();
+            this.pedidos = new List<Pedido>();
         }
-        public Restaurante(int empleados, string nombre, int cantmesas, string direccion,double recaudacion, string duenio)
+        public Restaurante( string nombre, int empleados, string direccion,double recaudacion,string duenio)
         {
-            this._empleados = empleados;
             this._nombre = nombre;
-            this._cantmesas = cantmesas;
+            this._empleados = empleados;
             this._direccion = direccion;
             if (recaudacion < 0)
             {
@@ -40,9 +43,42 @@ namespace EjercicioRestaurante
                 estado = "buen pasar";
                 this._recaudacion = recaudacion;
             }
-            this._duenio = duenio;
+            this.dueño = new Dueño(duenio);
+            this.mesa = new Mesa();
+            this.pedidos = new List<Pedido>();
+        }
+        public string getNombreDuenio()
+        {
+            return this.dueño.Nombre;
+        }
+        public void CambioDuenio(string duenio)
+        {
+            this.dueño.Nombre = duenio;
+        }
+        public void RealizarPedido(string descrip, int precio, string destino)
+        {
+            int nroPedido = getUltimoPedido();
+            this.pedidos.Add(new Pedido(descrip, precio, destino, nroPedido, DateTime.Now));
         }
 
+        public int getUltimoPedido()
+        {
+            Pedido p = pedidos.LastOrDefault();
+
+            if (p == null)
+                return 1;
+
+            return p.Codigo + 1;
+        }
+
+        public int getCantMesas()
+        {
+            return this.mesa.CantidadMesa;
+        }
+        public int getCantPedidos()
+        {
+            return this.pedidos.Count;
+        }
         public double Recaudacion
         {
             get
@@ -52,15 +88,7 @@ namespace EjercicioRestaurante
                 this.Recaudacion = value;
             }
         }
-        public string Duenio
-        {
-            get
-            { return this._duenio; }
-            set
-            {
-                this._duenio = value;
-            }
-        }
+        
         public int Empleados
         {
             get
@@ -99,7 +127,7 @@ namespace EjercicioRestaurante
         {
             if(recaudacion < 0)
             {
-                estado = "quebrado";
+                estado = "quebrado, se busca nuevo duenio";
                 SacarMesas();
                 DespedirEmpleados();
             }
@@ -114,30 +142,54 @@ namespace EjercicioRestaurante
                 estado = "buen pasar";
                 ContratarEmpleados();
                this._empleados = this._empleados *2;
-
-                this._cantmesas = SumarMesas() *2;
+                this.mesa.CantidadMesa = SumarMesas() *2;
             }
         }
 
         public int SumarMesas()
         {
-            return this._cantmesas++;
+            int cantidad = 0;
+            cantidad = getCantMesas();
+            return cantidad++;
         }
         public int SacarMesas()
         {
-           return this._cantmesas--;
+            int cantidad = 0;
+            cantidad = getCantMesas();
+            return cantidad--;
         }
-        public string CambioDuenio(string duenio)
+        /* public string CambioDuenio(string nombreDuenio)
+         {
+             this.dueño.Nombre = nombreDuenio;
+             return " el nuevio duenio de  " + this._nombre + " es " + this.dueño.Nombre ;    
+         }*/
+
+        public string ListarPedido()
         {
-            this._duenio = duenio;
-            return " el nuevio duenio de  " + this._nombre + " es " + this._duenio;    
+            string lista = "";
+            
+            if(pedidos.Count == 0)
+            {
+                lista += "No Hay pedidos para este restaurante";
+            }
+            else
+            {
+                for (int i = 0; i < pedidos.Count; i++)
+                {
+                    lista += pedidos[i];
+                }
+            }
+            
+
+            return lista;
         }
 
         public override string ToString()
         {
             
-                return string.Format("cantempleados: {0}\nNombre: {1}\nCantMesas : {2}\nDireccion: {3}\nRecaudacion {4}\nDuenio {5}\nEstado {6} \n", 
-                    this._empleados, this._nombre, this._cantmesas, this._direccion, this._recaudacion, this._duenio,this.estado);
+            return string.Format("\nNombre: {0}\ncantempleados: {1}\nCantMesas : {2}\nDireccion: {3}\nEstado: {4}\nRecaudacion: {5}\nPedidos: {6}\nDuenio: {7}\n",
+                this._nombre, this._empleados,  this.mesa.CantidadMesa, this._direccion,this.estado, this._recaudacion, ListarPedido(), getNombreDuenio());
+
             //(int empleados, string nombre, int cantmesas, string direccion,double recaudacion, string duenio)
         }
 
